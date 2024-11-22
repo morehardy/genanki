@@ -33,13 +33,13 @@ impl Error for AnkiError {
     }
 }
 
-impl Form<std::io::Error> for AnkiError {
+impl From<std::io::Error> for AnkiError {
     fn from(err: std::io::Error) -> Self {
         AnkiError::Io(err)
     }
 }
 
-impl Form<rusqlite::Error> for AnkiError {
+impl From<rusqlite::Error> for AnkiError {
     fn from(err: rusqlite::Error) -> Self {
         AnkiError::Database(err)
     }
@@ -47,6 +47,6 @@ impl Form<rusqlite::Error> for AnkiError {
 
 impl From<serde_json::Error> for AnkiError {
     fn from(err: serde_json::Error) -> Self {
-        AnkiError::Json()
+        AnkiError::Json(err)
     }
 }
