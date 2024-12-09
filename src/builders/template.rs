@@ -1,22 +1,28 @@
 use serde::{Serialize, Deserialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Template {
+    pub(crate) ord: usize,
+    pub(crate) bfont: Option<u32>,
     pub(crate) name: String,
     pub(crate) qfmt: Option<String>,
     pub(crate) afmt: Option<String>,
     pub(crate) bqfmt: Option<String>,
     pub(crate) bafmt: Option<String>,
     pub(crate) did: Option<usize>,
+    pub(crate) bsize: Option<usize>,
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Temp {
+    pub(crate) ord: usize,
+    pub(crate) bfont: u32,
     pub(crate) name: String,
     pub(crate) qfmt: String,
     pub(crate) afmt: String,
     pub(crate) bqfmt: String,
     pub(crate) bafmt: String,
-    pub(crate) did: Option<usize>,
+    pub(crate) did: usize,
+    pub(crate) bsize: usize,
 }
 
 impl Template {
@@ -28,6 +34,9 @@ impl Template {
             bqfmt: None,
             bafmt: None,
             did: None,
+            bfont: None,
+            ord: 0,
+            bsize: None,
         }
     }
 
@@ -60,12 +69,15 @@ impl Template {
 impl Into<Temp> for Template {
     fn into(self) -> Temp {
         Temp {
+            bfont: self.bfont.unwrap(),
+            ord: self.ord,
             name: self.name,
             qfmt: self.qfmt.unwrap_or("".into()),
             afmt: self.afmt.unwrap_or("".into()),
             bafmt: self.bafmt.unwrap_or("".into()),
             bqfmt: self.bqfmt.unwrap_or("".into()),
-            did: self.did,
+            did: self.did.unwrap_or(0),
+            bsize: self.bsize.unwrap_or(0),
         }
     }
 }
