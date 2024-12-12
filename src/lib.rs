@@ -7,7 +7,7 @@ pub use error::AnkiError;
 
 pub use builders::Note;
 pub use builders::Field;
-pub use builders::Template;
+pub use builders::{Template, Temp};
 
 pub type Result<T> = std::result::Result<T, AnkiError>;
 
